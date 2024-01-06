@@ -77,13 +77,8 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
         }
     }
 
-    public function data(): array
+    public function getData(): array
     {
-        echo "<p>Enclosure name: " . $this->name . "</p>";
-        echo "<p>Max animals: " . $this->maxAnimals . "</p>";
-        echo "<p>Cleanliness: " . $this->cleanliness . "</p>";
-        echo "<p>Animals count: " . $this->animalsCount . "</p>";
-        echo "<p>: " . $this->printAnimals() . "</p>";
         return [
             "name" => $this->name,
             "maxAnimals" => $this->maxAnimals,
