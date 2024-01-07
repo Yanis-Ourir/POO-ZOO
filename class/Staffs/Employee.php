@@ -5,8 +5,9 @@ namespace Staffs;
 
 use Interfaces\InterfaceAnimal;
 use Interfaces\InterfaceEnclosure;
+use Interfaces\InterfaceStaff;
 
-class Employee
+class Employee implements InterfaceStaff
 {
     protected string $name;
     protected int $age;
@@ -27,7 +28,7 @@ class Employee
      */
     public function cleanEnclosure(InterfaceEnclosure $enclosure): void {
         if($enclosure->getAnimalsCount() === 0) {
-            echo "This enclosure is empty, no need to clean it" . PHP_EOL;
+            echo "This enclosure is empty, you cleaned it" . PHP_EOL;
             $enclosure->cleanEnclosure();
         } else {
             throw new \Exception("This enclosure is not empty, you can't clean it");

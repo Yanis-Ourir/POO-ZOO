@@ -6,6 +6,11 @@ use Animals\Tiger;
 use Enclosures\Aquarium;
 
 require_once 'utils/autoloader.php';
+
+if(!isset($_SESSION)) {
+    header('Location: pages/login.php');
+}
+
 ?>
 <!doctype html>
 <html lang="en">

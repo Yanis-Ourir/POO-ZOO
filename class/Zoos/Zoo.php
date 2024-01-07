@@ -2,6 +2,7 @@
 
 namespace Zoos;
 
+use Interfaces\InterfaceEnclosure;
 use Staffs\Employee;
 
 class Zoo
@@ -34,17 +35,40 @@ class Zoo
         return $this->animalsCount;
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function addEnclosure(InterfaceEnclosure $enclosure): void
+    {
+        if(count($this->enclosures) >= $this->maxEnclosures) {
+            throw new \Exception("This zoo is full, remove an enclosure first if you want to add a new one");
+        }
+
+        $this->enclosures[] = $enclosure;
+        echo "<p>" . $enclosure->getName() . " added to zoo" . "</p>";
+    }
+
+    public function getEnclosures(): array
+    {
+        return $this->enclosures;
+    }
+
     public function main() : void
     {
-        $i = 0;
-        while($i <= $this->animalsCount) {
-            // TODO : Faire en sorte que ce soit RANDOMISER
-            foreach($this->enclosures as $enclosure) {
-                $enclosure->getAnimals()[$i]->wakeUp();
-                $enclosure->getAnimals()[$i]->eat();
-                $enclosure->getAnimals()[$i]->goToSleep();
-            }
-            $i++;
+//        $i = 0;
+//        while($i <= $this->animalsCount) {
+//            // TODO : Faire en sorte que ce soit RANDOMISER
+//            foreach($this->enclosures as $enclosure) {
+//                $enclosure->getAnimals()[$i]->wakeUp();
+//                $enclosure->getAnimals()[$i]->eat();
+//                $enclosure->getAnimals()[$i]->goToSleep();
+//            }
+//            $i++;
+//        }
+
+        if($this->enclosures === []) {
+            echo "There is no enclosure in this zoo" . PHP_EOL;
+            return;
         }
 
         foreach($this->enclosures as $enclosure) {

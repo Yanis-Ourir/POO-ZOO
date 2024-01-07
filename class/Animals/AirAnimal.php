@@ -2,7 +2,7 @@
 
 namespace Animals;
 
-class AirAnimal extends Animal
+abstract class AirAnimal extends Animal
 {
     #[\Override] public function sound(): void
     {
