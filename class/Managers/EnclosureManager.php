@@ -18,10 +18,10 @@ class EnclosureManager implements InterfaceManager
      */
     #[\Override] public function create(object $object): void
     {
-        $query = $this->db->prepare('INSERT INTO enclosure (name, cleanliness, animals_count, id_zoo) VALUES (:name, :cleanliness, :animals_count, :id_zoo)');
+        $query = $this->db->prepare('INSERT INTO enclosure (name, type, cleanliness, id_zoo) VALUES (:name, :type, :cleanliness, :id_zoo)');
         $query->bindValue(':name', $object->getName());
+        $query->bindValue(':type', $object->getType());
         $query->bindValue(':cleanliness', $object->getCleanliness());
-        $query->bindValue(':animals_count', $object->getAnimalsCount());
         $query->bindValue(':id_zoo', $_SESSION['id_zoo']);
         $query->execute();
     }
@@ -63,5 +63,14 @@ class EnclosureManager implements InterfaceManager
         $query = $this->db->prepare('DELETE FROM enclosure WHERE id = :id');
         $query->bindValue(':id', $id);
         $query->execute();
+    }
+
+    public function getEnclosureId(string $enclosureName): int
+    {
+        $query = $this->db->prepare('SELECT id FROM enclosure WHERE name = :name');
+        $query->bindValue(':name', $enclosureName);
+        $query->execute();
+        $data = $query->fetch();
+        return $data['id'];
     }
 }

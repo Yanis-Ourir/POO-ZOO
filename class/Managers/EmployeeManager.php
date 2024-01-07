@@ -60,4 +60,13 @@ class EmployeeManager implements InterfaceManager
         $query->bindValue(':id', $id);
         $query->execute();
     }
+
+    public function getId() : int
+    {
+        $query = $this->db->prepare('SELECT id FROM staff WHERE name = :name');
+        $query->bindValue(':name', $_SESSION['pseudo']);
+        $query->execute();
+        $data = $query->fetch();
+        return $data['id'];
+    }
 }

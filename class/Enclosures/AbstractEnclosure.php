@@ -10,6 +10,8 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
 {
     protected string $name;
 
+    protected string $type;
+
     protected int $maxAnimals = 6;
 
     protected string $cleanliness;
@@ -50,6 +52,16 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
         return $this->name;
     }
 
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
     public function getAnimalsCount(): int
     {
         return $this->animalsCount;
@@ -60,8 +72,14 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
         return $this->animals;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function setCleanliness(string $cleanliness): void
     {
+        if($cleanliness !== "clean" && $cleanliness !== "dirty")  {
+            throw new \Exception("Cleanliness must be clean or dirty");
+        }
         $this->cleanliness = $cleanliness;
     }
 

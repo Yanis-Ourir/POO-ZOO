@@ -6,7 +6,7 @@ use Animals\Animal;
 use Animals\GroundAnimal;
 use Interfaces\InterfaceAnimal;
 
-class Enclosure extends AbstractEnclosure
+class Terrarium extends AbstractEnclosure
 {
 
     /**
