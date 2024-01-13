@@ -10,6 +10,7 @@ abstract class Animal implements InterfaceAnimal
     protected int $height;
     protected int $age;
     protected string $species;
+    protected int $idEnclosure;
 
     public function setWeight(int $weight) : void
     {
@@ -49,6 +50,21 @@ abstract class Animal implements InterfaceAnimal
     public function getSpecies() : string
     {
         return $this->species;
+    }
+
+    public function getImage() : string
+    {
+        return $this->image;
+    }
+
+    public function setEnclosureId(int $idEnclosure) : void
+    {
+        $this->idEnclosure = $idEnclosure;
+    }
+
+    public function getEnclosureId() : string
+    {
+        return $this->idEnclosure;
     }
 
     public function data() : void

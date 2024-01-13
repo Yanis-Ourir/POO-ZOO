@@ -1,6 +1,7 @@
 <?php
 
 use Managers\ZooManager;
+use Zoos\Zoo;
 
 require_once 'utils/autoloader.php';
 require_once 'utils/connexion_db.php';
@@ -16,10 +17,25 @@ if(!isset($_SESSION['pseudo'])) {
  */
 
 $zooManager = new ZooManager($db);
-
 $zoo = $zooManager->findById($_SESSION['id_zoo']);
-
 $enclosures = $zooManager->enclosureZoo($_SESSION['id_zoo']);
+
+
+$currentZoo = new Zoo($zoo['name']);
+foreach ($enclosures as $enclosure) {
+    $class = "Enclosures\\" . $enclosure['type'];
+    $enclosureType = new $class($enclosure['name']);
+    $enclosureType->setType($enclosure['type']);
+    $enclosureType->setCleanliness($enclosure['cleanliness']);
+    $enclosureType->setId($enclosure['id']);
+    try {
+        $currentZoo->addEnclosure($enclosureType);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+$enclosuresZoo = $currentZoo->getEnclosures();
 
 include_once 'partials/header.php';
 ?>
@@ -42,14 +58,17 @@ include_once 'partials/header.php';
     <button type="submit" class="btn btn-info">Create Enclosure</button>
 </form>
 
-<?php foreach ($enclosures as $enclosure) { ?>
+<?php foreach ($enclosuresZoo as $enclosure) { ?>
   <div class='card mt-4'>
     <div class='card-body'>
-        <h5 class='card-title'><?= $enclosure['name'] ?></h5>
-        <p class='card-text'>type : <?= $enclosure['type'] ?></p>
-        <p class='card-text'>Cleanliness : <?= $enclosure['cleanliness'] ?></p>
-        <p class='card-text'>Animals : <?= $enclosure['animals_count'] ?></p>
-        <a href='pages/enclosure.php?id=<?= $enclosure['id'] ?>' class='btn btn-primary'>Manage enclosure</a>
+        <h5 class='card-title'><?= $enclosure->getName() ?></h5>
+        <p class='card-text'>type : <?= $enclosure->getType() ?></p>
+        <p class='card-text'>Cleanliness : <?= $enclosure->getCleanliness() ?></p>
+        <p class='card-text'>Animals : <?= $enclosure->getAnimalsCount() ?></p>
+        <form action="pages/enclosure.php" method="post">
+            <input type="hidden" name="id_enclosure" value="<?= $enclosure->getId() ?>">
+            <button type="submit" class="btn btn-primary">Manage enclosure</button>
+        </form>
     </div>
   </div>
 <?php } ?>

@@ -19,7 +19,6 @@ class Aquarium extends AbstractEnclosure
         if ($animal instanceof WaterAnimal) {
             $this->animals[] = $animal;
             $this->animalsCount++;
-            echo "<p>" . $animal->getSpecies() . " added to enclosure" . "</p>";
         } else {
             throw new \Exception("This animal is not a water animal");
         }

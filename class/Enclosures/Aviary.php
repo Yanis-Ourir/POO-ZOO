@@ -23,7 +23,6 @@ class Aviary extends AbstractEnclosure
         if ($animal instanceof AirAnimal) {
             $this->animals[] = $animal;
             $this->animalsCount++;
-            echo "<p>" . $animal->getSpecies() . " added to enclosure" . "</p>";
         } else {
             throw new \Exception("This animal is not a Flying animal");
         }

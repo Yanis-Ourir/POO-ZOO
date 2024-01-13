@@ -8,15 +8,14 @@ use Interfaces\InterfaceEnclosure;
 
 abstract class AbstractEnclosure implements InterfaceEnclosure
 {
+    protected int $id;
+
     protected string $name;
-
     protected string $type;
-
     protected int $maxAnimals = 6;
-
     protected string $cleanliness;
-
     protected int $animalsCount = 0;
+
     protected array $animals = [];
 
     public function __construct($name)
@@ -60,6 +59,14 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function setId(int $id) : void {
+        $this->id = $id;
+    }
+
+    public function getId(): int {
+        return $this->id;
     }
 
     public function getAnimalsCount(): int

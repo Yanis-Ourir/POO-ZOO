@@ -45,7 +45,6 @@ class Zoo
         }
 
         $this->enclosures[] = $enclosure;
-        echo "<p>" . $enclosure->getName() . " added to zoo" . "</p>";
     }
 
     public function getEnclosures(): array

@@ -12,7 +12,7 @@
 
 <nav class="navbar bg-info">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">POO - ZOO </a>
+        <a class="navbar-brand" href="../index.php">POO - ZOO </a>
     </div>
 </nav>
 

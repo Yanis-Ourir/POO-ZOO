@@ -73,4 +73,20 @@ class EnclosureManager implements InterfaceManager
         $data = $query->fetch();
         return $data['id'];
     }
+
+    public function findById(int $idEnclosure)
+    {
+        $query = $this->db->prepare('SELECT * FROM enclosure WHERE id = :id');
+        $query->bindValue(':id', $idEnclosure);
+        $query->execute();
+        return $query->fetch();
+    }
+
+    public function findAnimalsInEnclosure(int $idEnclosure)
+    {
+        $query = $this->db->prepare('SELECT * FROM animal WHERE id_enclosure = :id_enclosure');
+        $query->bindValue(':id_enclosure', $idEnclosure);
+        $query->execute();
+        return $query->fetchAll();
+    }
 }

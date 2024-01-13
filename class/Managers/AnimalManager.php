@@ -17,12 +17,13 @@ class AnimalManager implements InterfaceManager
      */
     #[\Override] public function create(object $object): void
     {
-        $query = $this->db->prepare('INSERT INTO animal (weight, height, age, species, id_enclosure) VALUES (:weight, :height, :age, :species, :id_enclosure)');
+        $query = $this->db->prepare('INSERT INTO animal (weight, height, age, species, image, id_enclosure) VALUES (:weight, :height, :age, :species, :image, :id_enclosure)');
         $query->bindValue(':weight', $object->getWeight());
         $query->bindValue(':height', $object->getHeight());
         $query->bindValue(':age', $object->getAge());
         $query->bindValue(':species', $object->getSpecies());
-        $query->bindValue(':id_enclosure', $_SESSION['id_enclosure']);
+        $query->bindValue(':image', $object->getImage());
+        $query->bindValue(':id_enclosure', $object->getEnclosureId());
         $query->execute();
     }
 
