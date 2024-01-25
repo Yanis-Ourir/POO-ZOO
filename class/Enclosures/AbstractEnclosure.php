@@ -2,7 +2,6 @@
 
 namespace Enclosures;
 
-use Animals\Animal;
 use Interfaces\InterfaceAnimal;
 use Interfaces\InterfaceEnclosure;
 
@@ -18,9 +17,23 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
 
     protected array $animals = [];
 
-    public function __construct($name)
+    public function __construct(array $data)
     {
-        $this->name = $name;
+        $this->hydrate($data);
+    }
+
+    public function hydrate(array $data) : void
+    {
+        foreach ($data as $key => $value) {
+            if(isset($value)) {
+                $method = 'set' . ucfirst($key);
+
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+            }
+
+        }
     }
 
     abstract public function addAnimal(InterfaceAnimal $animal): void;
@@ -67,6 +80,11 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
 
     public function getId(): int {
         return $this->id;
+    }
+
+    public function setAnimal_count(int $animalsCount): void
+    {
+        $this->animalsCount = $animalsCount;
     }
 
     public function getAnimalsCount(): int

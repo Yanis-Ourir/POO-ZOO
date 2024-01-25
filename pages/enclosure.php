@@ -10,46 +10,58 @@ include_once '../partials/header.php';
  * @var PDO $db
  */
 
-if(!isset($_POST['id_enclosure']) && !isset($_SESSION['id_enclosure'])) {
-    header('Location: ../index.php?error=enclosure');
+if(isset($_POST['id_enclosure'])) {
+    $_SESSION['id_enclosure'] = $_POST['id_enclosure'];
 }
 
-$idEnclosure = $_POST['id_enclosure'];
+if(!isset($_SESSION['id_enclosure'])) {
+    header('Location: ../index.php');
+}
+
+$idEnclosure = $_SESSION['id_enclosure'];
 
 $enclosureManager = new EnclosureManager($db);
-
 $enclosure = $enclosureManager->findById($idEnclosure);
 $animals = $enclosureManager->findAnimalsInEnclosure($enclosure['id']);
+
 $classEnclosure = "Enclosures\\" . $enclosure['type'];
-$currentEnclosure = new $classEnclosure($enclosure['name']);
+$currentEnclosure = new $classEnclosure($enclosure);
 
 if($animals) {
     foreach ($animals as $animal) {
         $class = "Animals\\" . $animal['species'];
-        $animalType = new $class($animal['species']);
-        $animalType->setWeight($animal['weight']);
-        $animalType->setHeight($animal['height']);
-        $animalType->setAge($animal['age']);
+        $animalType = new $class($animal);
         try {
             $currentEnclosure->addAnimal($animalType);
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+        $enclosureManager->update($currentEnclosure->getId(), $currentEnclosure);
     }
 }
 
 
 ?>
 <div class="d-flex flex-column align-items-center mt-4">
-    <h4>Manage your <?= $enclosure['name'] ?></h4>
-    <h5><?= $enclosure['type'] ?></h5>
+    <h4>Manage your <?= $currentEnclosure->getName() ?></h4>
+    <h5><?= $currentEnclosure->getType() ?></h5>
     <h6>Animals in your enclosure : <?= $currentEnclosure->getAnimalsCount() ?></h6>
 </div>
+
+<?php if(isset($_GET['error'])) {?>
+    <div class="alert alert-danger mt-4" role="alert">
+        <?= $_GET['error'] ?>
+    </div>
+<?php } else if (isset($_GET['success'])) { ?>
+    <div class="alert alert-success mt-4" role="alert">
+        <?= $_GET['success'] ?>
+    </div>
+<?php } ?>
 
 <section class="d-flex justify-content-around align-items-center">
     <div class="enclosure">
         <div class="enclosure__cleanliness">
-            <p>Cleanliness : <?= $enclosure['cleanliness'] ?></p>
+            <p>Cleanliness : <?= $currentEnclosure->getCleanliness() ?></p>
         </div>
         <div>
             <?php foreach($currentEnclosure->getAnimals() as $animal) { ?>
@@ -81,11 +93,14 @@ if($animals) {
 
     <div class="d-flex justify-content-center mt-4">
         <form action="../process/create_animal.php" method="post">
-            <input type="hidden" name="id_enclosure" value="<?= $enclosure['id'] ?>">
+            <input type="hidden" name="id_enclosure" value="<?= $currentEnclosure->getId() ?>">
             <label for="specie" class="form-label">Add animal to your enclosure : </label>
             <select name="specie" id="specie" class="form-select">
                 <option value="Fish">Fish</option>
                 <option value="Shark">Shark</option>
+                <option value="Tiger">Tiger</option>
+                <option value="Bear">Bear</option>
+                <option value="Eagle">Eagle</option>
             </select>
 
             <button type="submit" class="btn btn-info mt-2">Add animal</button>

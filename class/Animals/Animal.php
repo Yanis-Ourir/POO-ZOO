@@ -11,6 +11,29 @@ abstract class Animal implements InterfaceAnimal
     protected int $age;
     protected string $species;
     protected int $idEnclosure;
+    protected bool $isSleeping;
+    protected bool $isHungry;
+    protected bool $isSick;
+
+    public function __construct(array $data)
+    {
+        $this->hydrate($data);
+    }
+
+    public function hydrate(array $data) : void
+    {
+        foreach ($data as $key => $value) {
+            if(isset($value)) {
+                $method = 'set' . ucfirst($key);
+
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+            }
+
+        }
+    }
+
 
     public function setWeight(int $weight) : void
     {
@@ -57,12 +80,12 @@ abstract class Animal implements InterfaceAnimal
         return $this->image;
     }
 
-    public function setEnclosureId(int $idEnclosure) : void
+    public function setIdEnclosure(int $idEnclosure) : void
     {
         $this->idEnclosure = $idEnclosure;
     }
 
-    public function getEnclosureId() : string
+    public function getIdEnclosure() : string
     {
         return $this->idEnclosure;
     }
@@ -79,14 +102,34 @@ abstract class Animal implements InterfaceAnimal
         echo $this->species . " is eating";
     }
 
-    public function sleep() : void
+    public function setSleep(bool $isSleeping) : void
     {
-        echo $this->species . " is sleeping";
+        $this->isSleeping = $isSleeping;
     }
 
-    public function wakeUp() : void
+    public function getSleep() : bool
     {
-        echo $this->species . " is waking up";
+        return $this->isSleeping;
+    }
+
+    public function setHungry(bool $isHungry) : void
+    {
+        $this->isHungry = $isHungry;
+    }
+
+    public function getHungry() : bool
+    {
+        return $this->isHungry;
+    }
+
+    public function setSick(bool $isSick) : void
+    {
+        $this->isSick = $isSick;
+    }
+
+    public function getSick() : bool
+    {
+        return $this->isSick;
     }
 
     abstract public function sound() : void;

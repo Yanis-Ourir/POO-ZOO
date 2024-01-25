@@ -23,7 +23,7 @@ class AnimalManager implements InterfaceManager
         $query->bindValue(':age', $object->getAge());
         $query->bindValue(':species', $object->getSpecies());
         $query->bindValue(':image', $object->getImage());
-        $query->bindValue(':id_enclosure', $object->getEnclosureId());
+        $query->bindValue(':id_enclosure', $object->getIdEnclosure());
         $query->execute();
     }
 

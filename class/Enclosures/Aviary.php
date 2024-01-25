@@ -3,6 +3,7 @@
 namespace Enclosures;
 
 use Animals\AirAnimal;
+use Animals\WaterAnimal;
 use Interfaces\InterfaceAnimal;
 
 class Aviary extends AbstractEnclosure

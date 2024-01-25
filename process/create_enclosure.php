@@ -21,14 +21,11 @@ if(isset($_POST['enclosure_name']) && isset($_POST['enclosure_type'])) {
     $class = "Enclosures\\" . $enclosureType;
 
     $enclosureManager = new EnclosureManager($db);
-    $enclosure = new $class($enclosureName);
-    $enclosure->setType($enclosureType);
-
-    try {
-        $enclosure->setCleanliness('clean');
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
+    $enclosure = new $class([
+        'name' => $enclosureName,
+        'type' => $enclosureType,
+        'cleanliness' => 'clean'
+    ]);
 
     $enclosureManager->create($enclosure);
 

@@ -43,6 +43,9 @@ class Zoo
         if(count($this->enclosures) >= $this->maxEnclosures) {
             throw new \Exception("This zoo is full, remove an enclosure first if you want to add a new one");
         }
+        echo "<pre>";
+        var_dump($enclosure);
+        echo "</pre>";
 
         $this->enclosures[] = $enclosure;
     }
@@ -54,26 +57,19 @@ class Zoo
 
     public function main() : void
     {
-//        $i = 0;
-//        while($i <= $this->animalsCount) {
-//            // TODO : Faire en sorte que ce soit RANDOMISER
-//            foreach($this->enclosures as $enclosure) {
-//                $enclosure->getAnimals()[$i]->wakeUp();
-//                $enclosure->getAnimals()[$i]->eat();
-//                $enclosure->getAnimals()[$i]->goToSleep();
-//            }
-//            $i++;
-//        }
-
-        if($this->enclosures === []) {
+        if ($this->enclosures === []) {
             echo "There is no enclosure in this zoo" . PHP_EOL;
             return;
         }
 
-        foreach($this->enclosures as $enclosure) {
+        foreach ($this->enclosures as $enclosure) {
             $enclosure->setCleanliness(rand('clean', 'dirty'));
+            foreach ($enclosure->getAnimals() as $animal) {
+                $animal->setHungry(rand(0, 1));
+                $animal->setSleep(rand(0, 1));
+                $animal->setSick(rand(0, 1));
+            }
         }
 
-        // Passer la main à l'employé pour qu'il puisse faire son travail
     }
 }
