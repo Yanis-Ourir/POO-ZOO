@@ -43,10 +43,6 @@ class Zoo
         if(count($this->enclosures) >= $this->maxEnclosures) {
             throw new \Exception("This zoo is full, remove an enclosure first if you want to add a new one");
         }
-        echo "<pre>";
-        var_dump($enclosure);
-        echo "</pre>";
-
         $this->enclosures[] = $enclosure;
     }
 

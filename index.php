@@ -20,18 +20,12 @@ $zooManager = new ZooManager($db);
 $zoo = $zooManager->findById($_SESSION['id_zoo']);
 $enclosures = $zooManager->enclosureZoo($_SESSION['id_zoo']);
 
-echo "<pre>";
-var_dump($enclosures);
-echo "</pre>";
 
 $currentZoo = new Zoo($zoo['name']);
 
 foreach ($enclosures as $enclosure) {
     $class = "Enclosures\\" . $enclosure['type'];
     $enclosureType = new $class($enclosure);
-    echo "<pre>";
-    var_dump($enclosureType);
-    echo "</pre>";
     try {
         $currentZoo->addEnclosure($enclosureType);
     } catch (Exception $e) {
@@ -40,6 +34,7 @@ foreach ($enclosures as $enclosure) {
 }
 
 $enclosuresZoo = $currentZoo->getEnclosures();
+
 
 include_once 'partials/header.php';
 ?>
@@ -71,7 +66,7 @@ include_once 'partials/header.php';
                 <h5 class='card-title'><?= $enclosure->getName() ?></h5>
                 <p class='card-text'>type : <?= $enclosure->getType() ?></p>
                 <p class='card-text'>Cleanliness : <?= $enclosure->getCleanliness() ?></p>
-                <p class='card-text'>Animals : <?= $enclosure->getAnimalsCount() ?></p>
+                <p class='card-text'>Animals : <?= $enclosure->getCount() ?></p>
                 <form action="pages/enclosure.php" method="post">
                     <input type="hidden" name="id_enclosure" value="<?= $enclosure->getId() ?>">
                     <button type="submit" class="btn btn-primary">Manage enclosure</button>

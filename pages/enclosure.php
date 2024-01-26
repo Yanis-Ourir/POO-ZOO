@@ -6,6 +6,8 @@ require_once '../vendor/autoload.php';
 require_once '../utils/connexion_db.php';
 include_once '../partials/header.php';
 
+session_start();
+
 /**
  * @var PDO $db
  */
@@ -32,12 +34,13 @@ if($animals) {
         $class = "Animals\\" . $animal['species'];
         $animalType = new $class($animal);
         try {
-            $currentEnclosure->addAnimal($animalType);
+          $currentEnclosure->addAnimal($animalType);
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-        $enclosureManager->update($currentEnclosure->getId(), $currentEnclosure);
+
     }
+    $enclosureManager->update($currentEnclosure->getId(), $currentEnclosure);
 }
 
 

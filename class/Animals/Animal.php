@@ -90,13 +90,6 @@ abstract class Animal implements InterfaceAnimal
         return $this->idEnclosure;
     }
 
-    public function data() : void
-    {
-        echo "Species: " . $this->species . "<br>";
-        echo "Weight: " . $this->weight . "<br>";
-        echo "Height: " . $this->height . "<br>";
-        echo "Age: " . $this->age . "<br>";
-    }
     public function eat() : void
     {
         echo $this->species . " is eating";

@@ -82,12 +82,17 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
         return $this->id;
     }
 
-    public function setAnimal_count(int $animalsCount): void
+    public function setAnimals_count(int $animalsCount): void
     {
         $this->animalsCount = $animalsCount;
     }
 
     public function getAnimalsCount(): int
+    {
+        return count($this->animals);
+    }
+
+    public function getCount(): int
     {
         return $this->animalsCount;
     }

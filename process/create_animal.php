@@ -34,5 +34,5 @@ if(isset($_POST['specie']) && isset($_POST['id_enclosure'])) {
 
     $_SESSION['id_enclosure'] = $idEnclosure;
 
-    header('Location: ../pages/enclosure.php?success=animal');
+    header('Location: ../pages/enclosure.php');
 }
