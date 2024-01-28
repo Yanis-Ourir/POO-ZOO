@@ -2,6 +2,7 @@
 
 namespace Managers;
 
+use Enclosures\AbstractEnclosure;
 use Interfaces\InterfaceManager;
 
 class EnclosureManager implements InterfaceManager
@@ -44,13 +45,13 @@ class EnclosureManager implements InterfaceManager
      * @param object $object
      * @return void
      */
-    #[\Override] public function update(int $id, object $object): void
+    #[\Override] public function update(object $object): void
     {
         $query = $this->db->prepare('UPDATE enclosure SET name = :name, cleanliness = :cleanliness, animals_count = :animals_count WHERE id = :id');
         $query->bindValue(':name', $object->getName());
         $query->bindValue(':cleanliness', $object->getCleanliness());
         $query->bindValue(':animals_count', $object->getAnimalsCount());
-        $query->bindValue(':id', $id);
+        $query->bindValue(':id', $object->getId());
         $query->execute();
     }
 
@@ -82,10 +83,10 @@ class EnclosureManager implements InterfaceManager
         return $query->fetch();
     }
 
-    public function findAnimalsInEnclosure(int $idEnclosure)
+    public function findAnimalsInEnclosure(AbstractEnclosure $enclosure)
     {
         $query = $this->db->prepare('SELECT * FROM animal WHERE id_enclosure = :id_enclosure');
-        $query->bindValue(':id_enclosure', $idEnclosure);
+        $query->bindValue(':id_enclosure', $enclosure->getId());
         $query->execute();
         return $query->fetchAll();
     }

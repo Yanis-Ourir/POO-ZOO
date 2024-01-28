@@ -6,6 +6,7 @@ use Interfaces\InterfaceAnimal;
 
 abstract class Animal implements InterfaceAnimal
 {
+    protected int $id;
     protected int $weight;
     protected int $height;
     protected int $age;
@@ -93,6 +94,7 @@ abstract class Animal implements InterfaceAnimal
     public function eat() : void
     {
         echo $this->species . " is eating";
+        $this->isHungry = false;
     }
 
     public function setSleep(bool $isSleeping) : void
@@ -124,6 +126,17 @@ abstract class Animal implements InterfaceAnimal
     {
         return $this->isSick;
     }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
 
     abstract public function sound() : void;
 

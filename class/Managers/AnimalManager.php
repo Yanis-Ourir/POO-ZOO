@@ -45,14 +45,14 @@ class AnimalManager implements InterfaceManager
      * @param object $object
      * @return void
      */
-    #[\Override] public function update(int $id, object $object): void
+    #[\Override] public function update(object $object): void
     {
         $query = $this->db->prepare('UPDATE animal SET weight = :weight, height = :height, age = :age, species = :species WHERE id = :id');
         $query->bindValue(':weight', $object->getWeight());
         $query->bindValue(':height', $object->getHeight());
         $query->bindValue(':age', $object->getAge());
         $query->bindValue(':species', $object->getSpecies());
-        $query->bindValue(':id', $id);
+        $query->bindValue(':id', $object->getId());
         $query->execute();
     }
 
@@ -65,5 +65,13 @@ class AnimalManager implements InterfaceManager
         $query = $this->db->prepare('DELETE FROM animal WHERE id = :id');
         $query->bindValue(':id', $id);
         $query->execute();
+    }
+
+    public function findById(int $id): array
+    {
+        $query = $this->db->prepare('SELECT * FROM animal WHERE id = :id');
+        $query->bindValue(':id', $id);
+        $query->execute();
+        return $query->fetch();
     }
 }

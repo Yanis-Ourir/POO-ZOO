@@ -24,23 +24,28 @@ $idEnclosure = $_SESSION['id_enclosure'];
 
 $enclosureManager = new EnclosureManager($db);
 $enclosure = $enclosureManager->findById($idEnclosure);
-$animals = $enclosureManager->findAnimalsInEnclosure($enclosure['id']);
-
 $classEnclosure = "Enclosures\\" . $enclosure['type'];
 $currentEnclosure = new $classEnclosure($enclosure);
+
+$animals = $enclosureManager->findAnimalsInEnclosure($currentEnclosure);
+
+
 
 if($animals) {
     foreach ($animals as $animal) {
         $class = "Animals\\" . $animal['species'];
         $animalType = new $class($animal);
+        $animalType->setHungry(rand(0, 1));
+        $animalType->setSleep(rand(0, 1));
+        $animalType->setSick(rand(0, 1));
         try {
           $currentEnclosure->addAnimal($animalType);
         } catch (Exception $e) {
-            echo $e->getMessage();
+
         }
 
     }
-    $enclosureManager->update($currentEnclosure->getId(), $currentEnclosure);
+    $enclosureManager->update($currentEnclosure);
 }
 
 
@@ -49,6 +54,9 @@ if($animals) {
     <h4>Manage your <?= $currentEnclosure->getName() ?></h4>
     <h5><?= $currentEnclosure->getType() ?></h5>
     <h6>Animals in your enclosure : <?= $currentEnclosure->getAnimalsCount() ?></h6>
+    <div class="enclosure__cleanliness">
+        <p>Cleanliness : <?= $currentEnclosure->getCleanliness() ?></p>
+    </div>
 </div>
 
 <?php if(isset($_GET['error'])) {?>
@@ -63,38 +71,17 @@ if($animals) {
 
 <section class="d-flex justify-content-around align-items-center">
     <div class="enclosure">
-        <div class="enclosure__cleanliness">
-            <p>Cleanliness : <?= $currentEnclosure->getCleanliness() ?></p>
+        <div class="row align-items-center">
+                <?php foreach($currentEnclosure->getAnimals() as $animal) { ?>
+                    <div class="col-3">
+                        <img src="../assets/<?= $animal->getImage() ?>" alt="<?= $animal->getSpecies() ?>" style="width: 200px">
+                    </div>
+                <?php } ?>
         </div>
-        <div>
-            <?php foreach($currentEnclosure->getAnimals() as $animal) { ?>
-                <div class="">
-                    <img src="../assets/<?= $animal->getImage() ?>" alt="<?= $animal->getSpecies() ?>" style="width: 200px">
-                </div>
-            <?php } ?>
-        </div>
-
-    </div>
-
-    <div>
-        <p>Animals in your enclosure :</p>
-        <?php foreach($currentEnclosure->getAnimals() as $animal) { ?>
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $animal->getSpecies() ?></h5>
-                    <p class="card-text">Weight : <?= $animal->getWeight() ?></p>
-                    <p class="card-text">Height : <?= $animal->getHeight() ?></p>
-                    <p class="card-text">Age : <?= $animal->getAge() ?></p>
-                </div>
-            </div>
-        <?php } ?>
-
     </div>
 
 
-</section>
-
-    <div class="d-flex justify-content-center mt-4">
+    <div class="d-flex justify-content-center mt-4 p-4">
         <form action="../process/create_animal.php" method="post">
             <input type="hidden" name="id_enclosure" value="<?= $currentEnclosure->getId() ?>">
             <label for="specie" class="form-label">Add animal to your enclosure : </label>
@@ -107,6 +94,40 @@ if($animals) {
             </select>
 
             <button type="submit" class="btn btn-info mt-2">Add animal</button>
+    </div>
+
+</section>
+
+
+    <div class="container">
+        <div class="row">
+            <p>Animals in your enclosure :</p>
+            <?php foreach($currentEnclosure->getAnimals() as $animal) { ?>
+                <div class="col-3">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $animal->getSpecies() ?></h5>
+                            <p class="card-text">Weight : <?= $animal->getWeight() ?></p>
+                            <p class="card-text">Height : <?= $animal->getHeight() ?></p>
+                            <p class="card-text">Age : <?= $animal->getAge() ?></p>
+                            <p class="card-text">Hunger : <?= $animal->getHungry() ? 'Hungry' : 'Full' ?> </p>
+                            <p class="card-text">Energy : <?= $animal->getSleep() ? 'Sleeping' : 'Awake' ?> </p>
+                            <p class="card-text">Sick : <?= $animal->getSick() ? 'Sickness' : 'Good shape' ?> </p>
+                            <div class="d-flex">
+                                <a href="../process/feed_animal.php" class="btn btn-info me-2">Feed</a>
+                                <a href="../process/heal_animal.php" type="" class="btn btn-info me-2">Heal</a>
+
+                                <form action="../process/remove_animal.php" method="post">
+                                    <input type="hidden" name="id_animal" value="<?= $animal->getId() ?>">
+                                    <input type="hidden" name="id_enclosure" value="<?= $currentEnclosure->getId() ?>">
+                                    <button type="submit" class="btn btn-danger me-2">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
     </div>
 
 

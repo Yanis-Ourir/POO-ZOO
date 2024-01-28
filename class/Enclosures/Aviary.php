@@ -23,7 +23,7 @@ class Aviary extends AbstractEnclosure
 
         if ($animal instanceof AirAnimal) {
             $this->animals[] = $animal;
-            $this->animalsCount++;
+            $this->animalsCount = count($this->animals);
         } else {
             throw new \Exception("This animal is not a Flying animal");
         }

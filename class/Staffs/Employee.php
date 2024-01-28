@@ -9,6 +9,8 @@ use Interfaces\InterfaceStaff;
 
 class Employee implements InterfaceStaff
 {
+
+    protected int $id;
     protected string $name;
     protected int $age;
     protected string $gender;
@@ -29,7 +31,7 @@ class Employee implements InterfaceStaff
     public function cleanEnclosure(InterfaceEnclosure $enclosure): void {
         if($enclosure->getAnimalsCount() === 0) {
             echo "This enclosure is empty, you cleaned it" . PHP_EOL;
-            $enclosure->cleanEnclosure();
+            $enclosure->setCleanliness('Clean');
         } else {
             throw new \Exception("This enclosure is not empty, you can't clean it");
         }
@@ -38,7 +40,7 @@ class Employee implements InterfaceStaff
 
     public function feedAnimals(InterfaceEnclosure $enclosure): void {
         foreach($enclosure->getAnimals() as $animal) {
-            if($animal->wakeUp() === false) {
+            if($animal->getSleep() === false) {
                 echo "This animal is sleeping, you can't feed it" . PHP_EOL;
             }
             echo $this->name . " gave food to " .  $animal->getSpecies . $animal->eat();
@@ -85,6 +87,16 @@ class Employee implements InterfaceStaff
     public function getGender() : string
     {
         return $this->gender;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
 }

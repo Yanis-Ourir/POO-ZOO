@@ -26,6 +26,9 @@ if(isset($_POST['specie']) && isset($_POST['id_enclosure'])) {
         'weight' => rand(1, 10),
         'height' => rand(1, 10),
         'age' => rand(1, 10),
+        'hungry' => rand(0, 1),
+        'sleep' => rand(0, 1),
+        'sick' => rand(0, 1),
         'idEnclosure' => $idEnclosure
     ]);
 

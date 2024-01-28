@@ -7,6 +7,9 @@ use Staffs\Employee;
 
 class Zoo
 {
+
+    protected int $id;
+
     protected string $name;
 
     protected Employee $employee;
@@ -68,4 +71,16 @@ class Zoo
         }
 
     }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+
 }

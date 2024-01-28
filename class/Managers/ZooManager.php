@@ -41,12 +41,12 @@ class ZooManager implements InterfaceManager
      * @param object $object
      * @return void
      */
-    #[\Override] public function update(int $id, object $object): void
+    #[\Override] public function update(object $object): void
     {
         $query = $this->db->prepare('UPDATE zoo SET name = :name, animals_count = :animals_count WHERE id = :id');
         $query->bindValue(':name', $object->getName());
         $query->bindValue(':animals_count', $object->getAnimalsCount());
-        $query->bindValue(':id', $id);
+        $query->bindValue(':id', $object->getId());
         $query->execute();
     }
 

@@ -22,7 +22,7 @@ class Terrarium extends AbstractEnclosure
 
         if($animal instanceof GroundAnimal) {
             $this->animals[] = $animal;
-            $this->animalsCount++;
+            $this->animalsCount = count($this->animals);
         } else {
             throw new \Exception("This animal is not a Ground animal");
         }

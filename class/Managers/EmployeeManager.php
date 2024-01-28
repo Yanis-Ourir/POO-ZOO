@@ -41,13 +41,13 @@ class EmployeeManager implements InterfaceManager
     /**
      * @return void
      */
-    #[\Override] public function update(int $id, object $object): void
+    #[\Override] public function update(object $object): void
     {
         $query = $this->db->prepare('UPDATE staff SET name = :name, age = :age, gender = :gender WHERE id = :id');
         $query->bindValue(':name', $object->getName());
         $query->bindValue(':age', $object->getAge());
         $query->bindValue(':gender', $object->getGender());
-        $query->bindValue(':id', $id);
+        $query->bindValue(':id', $object->getId());
         $query->execute();
     }
 

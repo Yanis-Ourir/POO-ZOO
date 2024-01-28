@@ -41,11 +41,9 @@ abstract class AbstractEnclosure implements InterfaceEnclosure
     public function removeAnimal(InterfaceAnimal $animal): void
     {
         foreach ($this->animals as $key => $value) {
-            if ($value === $animal) {
-                unset($this->animals[$key]);
+                array_splice($this->animals, $key, $key);
                 $this->animalsCount--;
                 echo $animal->getSpecies() . " removed from enclosure" . PHP_EOL;
-            }
         }
     }
 
